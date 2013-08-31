@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>Module&apos;s Name</string>
+	<key>prefix</key>
+	<string>mprefix</string>
+	<key>metrics</key>
+	<array>
+		<dict>
+			<key>name</key>
+			<string>Metric&apos;s Name</string>
+			<key>description</key>
+			<string>Metric&apos;s Description</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Metric&apos;s Name</string>
+			<key>description</key>
+			<string>Metric&apos;s Description</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Metric&apos;s Name</string>
+			<key>description</key>
+			<string>Metric&apos;s Description</string>
+		</dict>
+	</array>
+</dict>
+</plist>
