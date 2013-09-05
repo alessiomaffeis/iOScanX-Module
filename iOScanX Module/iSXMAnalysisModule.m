@@ -25,8 +25,9 @@
     
     self = [super init];
     if (self) {
-        
-        NSDictionary *moduleInfo = [NSDictionary dictionaryWithContentsOfFile:@"Module.plist"];
+        NSBundle *bundle = [NSBundle bundleForClass:[iSXMAnalysisModule class]];
+        NSString *plist = [bundle pathForResource:@"Module" ofType:@"plist"];
+        NSDictionary *moduleInfo = [NSDictionary dictionaryWithContentsOfFile:plist];
         _name = [[NSString alloc] initWithString:[moduleInfo objectForKey:@"name"]];
         _prefix = [[NSString alloc] initWithString:[moduleInfo objectForKey:@"prefix"]];
         
@@ -37,7 +38,7 @@
             [sxm release];
         }
         _metrics = [[NSArray alloc] initWithArray:metrics];
-        _bundleIdentifier = [[NSBundle bundleForClass:[iSXMAnalysisModule class]] bundleIdentifier];
+        _bundleIdentifier = [bundle bundleIdentifier];
         NSString *modulesPath = [[NSFileManager defaultManager] applicationSupportSubDirectory:@"Modules"];
         _tmpPath = [NSString stringWithFormat:@"%@/%@/tmp", modulesPath, _bundleIdentifier];
     }

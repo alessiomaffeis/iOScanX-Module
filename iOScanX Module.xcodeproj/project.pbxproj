@@ -13,7 +13,6 @@
 		7A9EE53A16E76E00004770AA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A9EE53916E76E00004770AA /* Cocoa.framework */; };
 		7A9EE54416E76E00004770AA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7A9EE54216E76E00004770AA /* InfoPlist.strings */; };
 		7AA1B00C176F7B9A0053E86A /* iSXMAnalysisModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AA1B00B176F7B9A0053E86A /* iSXMAnalysisModule.m */; };
-		7AE6CB1517D22C6200EC9421 /* iSXApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AE6CB1417D22C6200EC9421 /* iSXApp.m */; };
 		7AE9FD361770920E00E0E19A /* Module.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7AE9FD351770920E00E0E19A /* Module.plist */; };
 /* End PBXBuildFile section */
 
@@ -32,7 +31,6 @@
 		7AA1B00A176F7B9A0053E86A /* iSXMAnalysisModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iSXMAnalysisModule.h; sourceTree = "<group>"; };
 		7AA1B00B176F7B9A0053E86A /* iSXMAnalysisModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iSXMAnalysisModule.m; sourceTree = "<group>"; };
 		7AE6CB1317D22C6200EC9421 /* iSXApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iSXApp.h; sourceTree = "<group>"; };
-		7AE6CB1417D22C6200EC9421 /* iSXApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iSXApp.m; sourceTree = "<group>"; };
 		7AE9FD351770920E00E0E19A /* Module.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Module.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -53,7 +51,6 @@
 			isa = PBXGroup;
 			children = (
 				7AE6CB1317D22C6200EC9421 /* iSXApp.h */,
-				7AE6CB1417D22C6200EC9421 /* iSXApp.m */,
 				7A5343C517D8DC9A00C7C86A /* NSFileManager+DirectoryLocations.h */,
 				7A5343C617D8DC9A00C7C86A /* NSFileManager+DirectoryLocations.m */,
 			);
@@ -184,7 +181,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7AA1B00C176F7B9A0053E86A /* iSXMAnalysisModule.m in Sources */,
-				7AE6CB1517D22C6200EC9421 /* iSXApp.m in Sources */,
 				7A5343C717D8DC9A00C7C86A /* NSFileManager+DirectoryLocations.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
