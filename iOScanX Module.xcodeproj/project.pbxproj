@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7A5343C717D8DC9A00C7C86A /* NSFileManager+DirectoryLocations.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A5343C617D8DC9A00C7C86A /* NSFileManager+DirectoryLocations.m */; };
 		7A6583D1176F2EC3005C45BD /* ScanX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A6583D0176F2EC3005C45BD /* ScanX.framework */; };
 		7A6583D2176F2EF1005C45BD /* ScanX.framework in Resources */ = {isa = PBXBuildFile; fileRef = 7A6583D0176F2EC3005C45BD /* ScanX.framework */; };
 		7A9EE53A16E76E00004770AA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A9EE53916E76E00004770AA /* Cocoa.framework */; };
@@ -17,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7A5343C517D8DC9A00C7C86A /* NSFileManager+DirectoryLocations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+DirectoryLocations.h"; sourceTree = "<group>"; };
+		7A5343C617D8DC9A00C7C86A /* NSFileManager+DirectoryLocations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+DirectoryLocations.m"; sourceTree = "<group>"; };
 		7A6583D0176F2EC3005C45BD /* ScanX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScanX.framework; path = ../ScanX/DerivedData/ScanX/Build/Products/Release/ScanX.framework; sourceTree = "<group>"; };
 		7A9EE53616E76E00004770AA /* iOScanX Module.isxm */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "iOScanX Module.isxm"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A9EE53916E76E00004770AA /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -46,6 +49,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7A5343C917D8DCA800C7C86A /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				7AE6CB1317D22C6200EC9421 /* iSXApp.h */,
+				7AE6CB1417D22C6200EC9421 /* iSXApp.m */,
+				7A5343C517D8DC9A00C7C86A /* NSFileManager+DirectoryLocations.h */,
+				7A5343C617D8DC9A00C7C86A /* NSFileManager+DirectoryLocations.m */,
+			);
+			name = Other;
+			sourceTree = "<group>";
+		};
 		7A9EE52B16E76E00004770AA = {
 			isa = PBXGroup;
 			children = (
@@ -86,11 +100,10 @@
 		7A9EE53F16E76E00004770AA /* iOScanX Module */ = {
 			isa = PBXGroup;
 			children = (
-				7AE6CB1317D22C6200EC9421 /* iSXApp.h */,
-				7AE6CB1417D22C6200EC9421 /* iSXApp.m */,
 				7AA1B00A176F7B9A0053E86A /* iSXMAnalysisModule.h */,
 				7AA1B00B176F7B9A0053E86A /* iSXMAnalysisModule.m */,
 				7A9EE54016E76E00004770AA /* Supporting Files */,
+				7A5343C917D8DCA800C7C86A /* Other */,
 			);
 			path = "iOScanX Module";
 			sourceTree = "<group>";
@@ -172,6 +185,7 @@
 			files = (
 				7AA1B00C176F7B9A0053E86A /* iSXMAnalysisModule.m in Sources */,
 				7AE6CB1517D22C6200EC9421 /* iSXApp.m in Sources */,
+				7A5343C717D8DC9A00C7C86A /* NSFileManager+DirectoryLocations.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

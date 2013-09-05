@@ -7,10 +7,13 @@
 //
 
 #import "iSXMAnalysisModule.h"
-#import "iSXApp.h"
+#import "NSFileManager+DirectoryLocations.h"
+
 
 @implementation iSXMAnalysisModule {
     
+    NSString *_bundleIdentifier;
+    NSString *_tmpPath;
 }
 
 @synthesize delegate = _delegate;
@@ -20,7 +23,7 @@
 
 - (id) init {
     
-    [super init];
+    self = [super init];
     if (self) {
         
         NSDictionary *moduleInfo = [NSDictionary dictionaryWithContentsOfFile:@"Module.plist"];
@@ -34,36 +37,63 @@
             [sxm release];
         }
         _metrics = [[NSArray alloc] initWithArray:metrics];
+        _bundleIdentifier = [[NSBundle bundleForClass:[iSXMAnalysisModule class]] bundleIdentifier];
+        NSString *modulesPath = [[NSFileManager defaultManager] applicationSupportSubDirectory:@"Modules"];
+        _tmpPath = [NSString stringWithFormat:@"%@/%@/tmp", modulesPath, _bundleIdentifier];
     }
     return self;
 }
 
 
-- (void) analyze:(id) item {
-    
-    NSMutableDictionary *results = [[[NSMutableDictionary alloc] init] autorelease];
+- (void) analyze:(id)item {
     
     NSString *theId = [item objectAtIndex:0];
     iSXApp *theItem = [item objectAtIndex:1];
     
-    if ([self itemIsValid:theItem]) {
-        
-        // DO YOUR NASTY THINGS HERE.
-    }
-    else {
-                
-        for(SXMetric *metric in _metrics){
-            [results setObject:nil forKey:[NSString stringWithFormat:@"%@_%@", _prefix, metric.name]];
+    NSMutableDictionary *results = [[[NSMutableDictionary alloc] init] autorelease];
+    for(SXMetric *metric in _metrics)
+        [results setObject:nil forKey:[NSString stringWithFormat:@"%@_%@", _prefix, metric.name]];
+
+    if ([self itemIsValid:theItem])
+    {
+       if ([self copyItem:theItem])
+        {
+            NSLog(@"%@ is analyzing: %@", _name, theItem.name);
+            
+            // DO YOUR NASTY THINGS HERE.
         }
     }
+    
     [_delegate storeMetrics:results forItem:theId];
 }
 
-- (BOOL) itemIsValid:(id) item {
+- (BOOL) itemIsValid:(iSXApp*)item {
     
-    // VALIDATE YOUR ITEM HERE.
+    if (item.path == nil)
+        return NO;
+    if (item.ID == nil)
+        return NO;
     
-    return NO;
+    return YES;
+}
+
+- (BOOL) copyItem:(iSXApp*)item {
+    
+    NSString *tmpItemPath = [_tmpPath stringByAppendingPathComponent:item.ID];
+    [[NSFileManager defaultManager] createDirectoryAtPath:tmpItemPath withIntermediateDirectories:YES attributes:nil error:nil];
+
+    NSString *dir = [NSString stringWithFormat:@"--directory=%@", tmpItemPath];
+    NSArray *args = [NSArray arrayWithObjects: @"-xf", item.path, dir, nil];
+    
+    NSTask *untar = [[NSTask alloc] init];
+    [untar setLaunchPath:@"/usr/bin/tar"];
+    [untar setArguments:args];
+    [untar launch];
+    [untar waitUntilExit];
+    int exitCode = [untar terminationStatus];
+    [untar release];
+    
+    return  exitCode == 0 ? YES : NO;
 }
 
 - (void) dealloc {

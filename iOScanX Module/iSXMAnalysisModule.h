@@ -8,11 +8,11 @@
 
 #import <Cocoa/Cocoa.h>
 #import <ScanX/SXModule.h>
+#import "iSXApp.h"
 
 @interface iSXMAnalysisModule : NSObject <SXModule>
 
-@property (assign) NSString* tmpPath;
-
-- (BOOL) itemIsValid:(id) item;
+- (BOOL) itemIsValid:(iSXApp*)item;
+- (BOOL) copyItem:(iSXApp*)item;
 
 @end
