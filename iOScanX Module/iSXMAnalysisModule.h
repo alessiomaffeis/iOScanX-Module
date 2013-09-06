@@ -14,5 +14,6 @@
 
 - (BOOL) itemIsValid:(iSXApp*)item;
 - (BOOL) copyItem:(iSXApp*)item;
+- (BOOL) deleteItem:(iSXApp*)item;
 
 @end

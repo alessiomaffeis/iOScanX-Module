@@ -38,9 +38,9 @@
             [sxm release];
         }
         _metrics = [[NSArray alloc] initWithArray:metrics];
-        _bundleIdentifier = [bundle bundleIdentifier];
+        _bundleIdentifier = [[bundle bundleIdentifier] retain];
         NSString *modulesPath = [[NSFileManager defaultManager] applicationSupportSubDirectory:@"Modules"];
-        _tmpPath = [NSString stringWithFormat:@"%@/%@/tmp", modulesPath, _bundleIdentifier];
+        _tmpPath = [[NSString stringWithFormat:@"%@/%@/tmp", modulesPath, _bundleIdentifier] retain];
     }
     return self;
 }
@@ -53,15 +53,15 @@
     
     NSMutableDictionary *results = [[[NSMutableDictionary alloc] init] autorelease];
     for(SXMetric *metric in _metrics)
-        [results setObject:nil forKey:[NSString stringWithFormat:@"%@_%@", _prefix, metric.name]];
+        [results setObject:[NSNull null] forKey:[NSString stringWithFormat:@"%@_%@", _prefix, metric.name]];
 
     if ([self itemIsValid:theItem])
     {
        if ([self copyItem:theItem])
         {
-            NSLog(@"%@ is analyzing: %@", _name, theItem.name);
-            
             // DO YOUR NASTY THINGS HERE.
+            
+            [self deleteItem:theItem];
         }
     }
     
@@ -97,11 +97,18 @@
     return  exitCode == 0 ? YES : NO;
 }
 
+- (BOOL) deleteItem:(iSXApp*)item {
+    
+    return [[NSFileManager defaultManager] removeItemAtPath:[_tmpPath stringByAppendingPathComponent:item.ID] error:nil];
+}
+
 - (void) dealloc {
     
     [_name release];
     [_prefix release];
     [_metrics release];
+    [_bundleIdentifier release];
+    [_tmpPath release];
     [super dealloc];
 }
 
