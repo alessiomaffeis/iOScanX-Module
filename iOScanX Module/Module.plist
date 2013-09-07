@@ -5,7 +5,7 @@
 	<key>name</key>
 	<string>Module&apos;s Name</string>
 	<key>prefix</key>
-	<string>mprefix_</string>
+	<string>mprefix</string>
 	<key>metrics</key>
 	<array>
 		<dict>
