@@ -12,8 +12,10 @@
 
 @interface iSXMAnalysisModule : NSObject <SXModule>
 
+@property (readonly) BOOL readonly;
+
 - (BOOL) itemIsValid:(iSXApp*)item;
-- (BOOL) copyItem:(iSXApp*)item;
+- (NSString*) temporaryItem:(iSXApp*)item;
 - (BOOL) deleteItem:(iSXApp*)item;
 
 @end

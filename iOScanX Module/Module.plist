@@ -6,6 +6,8 @@
 	<string>Module&apos;s Name</string>
 	<key>prefix</key>
 	<string>mprefix</string>
+	<key>readonly</key>
+	<false/>
 	<key>metrics</key>
 	<array>
 		<dict>

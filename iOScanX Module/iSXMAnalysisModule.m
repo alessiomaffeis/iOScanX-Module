@@ -30,7 +30,8 @@
         NSDictionary *moduleInfo = [NSDictionary dictionaryWithContentsOfFile:plist];
         _name = [[NSString alloc] initWithString:[moduleInfo objectForKey:@"name"]];
         _prefix = [[NSString alloc] initWithString:[moduleInfo objectForKey:@"prefix"]];
-        
+        _readonly = [[moduleInfo objectForKey:@"readonly"] boolValue];
+
         NSMutableArray *metrics = [NSMutableArray array];
         for(NSDictionary *metric in [moduleInfo objectForKey:@"metrics"]) {
             SXMetric *sxm = [[SXMetric alloc] initWithName:[metric objectForKey:@"name"] andInfo:[metric objectForKey:@"description"]];
@@ -39,8 +40,10 @@
         }
         _metrics = [[NSArray alloc] initWithArray:metrics];
         _bundleIdentifier = [[bundle bundleIdentifier] retain];
-        NSString *modulesPath = [[NSFileManager defaultManager] applicationSupportSubDirectory:@"Modules"];
+        NSFileManager *fm = [NSFileManager defaultManager];
+        NSString *modulesPath = [fm applicationSupportSubDirectory:@"Modules"];
         _tmpPath = [[NSString stringWithFormat:@"%@/%@/tmp", modulesPath, _bundleIdentifier] retain];
+        [fm createDirectoryAtPath:_tmpPath withIntermediateDirectories:YES attributes:nil error:nil];
     }
     return self;
 }
@@ -57,7 +60,8 @@
 
     if ([self itemIsValid:theItem])
     {
-       if ([self copyItem:theItem])
+        NSString *itemPath = [self temporaryItem:theItem];
+        if(itemPath != nil)
         {
             // DO YOUR NASTY THINGS HERE.
             
@@ -78,23 +82,51 @@
     return YES;
 }
 
-- (BOOL) copyItem:(iSXApp*)item {
+- (NSString*) temporaryItem:(iSXApp*)item {
     
-    NSString *tmpItemPath = [_tmpPath stringByAppendingPathComponent:item.ID];
-    [[NSFileManager defaultManager] createDirectoryAtPath:tmpItemPath withIntermediateDirectories:YES attributes:nil error:nil];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    
+    if (_readonly)
+    {
+        @synchronized(self)
+        {
+            if (![fm fileExistsAtPath:[item.path stringByDeletingPathExtension]])
+            {
+                NSString *dir = [NSString stringWithFormat:@"--directory=%@", [item.path stringByDeletingLastPathComponent]];
+                NSArray *args = [NSArray arrayWithObjects: @"-xf", item.path, dir, nil];
+                NSTask *untar = [[NSTask alloc] init];
+                [untar setLaunchPath:@"/usr/bin/tar"];
+                [untar setArguments:args];
+                [untar launch];
+                [untar waitUntilExit];
+                int exitCode = [untar terminationStatus];
+                [untar release];
+                
+                if (exitCode != 0)
+                    return nil;
+            }
+        }
+        
+        return [item.path stringByDeletingLastPathComponent];
+    }
+    else
+    {
+        NSString *tmpItemPath = [_tmpPath stringByAppendingPathComponent:item.ID];
+        [fm createDirectoryAtPath:tmpItemPath withIntermediateDirectories:YES attributes:nil error:nil];
 
-    NSString *dir = [NSString stringWithFormat:@"--directory=%@", tmpItemPath];
-    NSArray *args = [NSArray arrayWithObjects: @"-xf", item.path, dir, nil];
-    
-    NSTask *untar = [[NSTask alloc] init];
-    [untar setLaunchPath:@"/usr/bin/tar"];
-    [untar setArguments:args];
-    [untar launch];
-    [untar waitUntilExit];
-    int exitCode = [untar terminationStatus];
-    [untar release];
-    
-    return  exitCode == 0 ? YES : NO;
+        NSString *dir = [NSString stringWithFormat:@"--directory=%@", tmpItemPath];
+        NSArray *args = [NSArray arrayWithObjects: @"-xf", item.path, dir, nil];
+        
+        NSTask *untar = [[NSTask alloc] init];
+        [untar setLaunchPath:@"/usr/bin/tar"];
+        [untar setArguments:args];
+        [untar launch];
+        [untar waitUntilExit];
+        int exitCode = [untar terminationStatus];
+        [untar release];
+        
+        return  exitCode == 0 ? [tmpItemPath stringByAppendingPathComponent:item.name] : nil;
+    }
 }
 
 - (BOOL) deleteItem:(iSXApp*)item {
