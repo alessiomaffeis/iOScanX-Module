@@ -14,6 +14,7 @@
     
     NSString *_bundleIdentifier;
     NSString *_tmpPath;
+    NSBundle *_bundle;
 }
 
 @synthesize delegate = _delegate;
@@ -25,8 +26,8 @@
     
     self = [super init];
     if (self) {
-        NSBundle *bundle = [NSBundle bundleForClass:[iSXMAnalysisModule class]];
-        NSString *plist = [bundle pathForResource:@"Module" ofType:@"plist"];
+        _bundle = [NSBundle bundleForClass:[iSXMAnalysisModule class]];
+        NSString *plist = [_bundle pathForResource:@"Module" ofType:@"plist"];
         NSDictionary *moduleInfo = [NSDictionary dictionaryWithContentsOfFile:plist];
         _name = [[NSString alloc] initWithString:[moduleInfo objectForKey:@"name"]];
         _prefix = [[NSString alloc] initWithString:[moduleInfo objectForKey:@"prefix"]];
@@ -39,7 +40,7 @@
             [sxm release];
         }
         _metrics = [[NSArray alloc] initWithArray:metrics];
-        _bundleIdentifier = [[bundle bundleIdentifier] retain];
+        _bundleIdentifier = [[_bundle bundleIdentifier] retain];
         NSFileManager *fm = [NSFileManager defaultManager];
         NSString *modulesPath = [fm applicationSupportSubDirectory:@"Modules"];
         _tmpPath = [[NSString stringWithFormat:@"%@/%@/tmp", modulesPath, _bundleIdentifier] retain];
