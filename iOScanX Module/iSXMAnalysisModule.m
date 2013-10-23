@@ -131,6 +131,9 @@
 
 - (BOOL) deleteItem:(iSXApp*)item {
     
+    if (_readonly)
+        return YES;
+    
     return [[NSFileManager defaultManager] removeItemAtPath:[_tmpPath stringByAppendingPathComponent:item.ID] error:nil];
 }
 
